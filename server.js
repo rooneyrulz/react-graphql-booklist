@@ -4,6 +4,8 @@ const { graphqlHTTP } = require('express-graphql');
 const loggerHTTP = require('morgan');
 const dotENV = require('dotenv');
 
+const schema = require('./schema/schema');
+
 // Mongo Connection
 const db = require('./config/db');
 
@@ -17,6 +19,6 @@ db(server);
 
 if (process.env.NODE_ENV === 'development') app.use(loggerHTTP('dev'));
 
-app.use('', graphqlHTTP({}));
+app.use('', graphqlHTTP({ schema, graphiql: true }));
 
 module.exports = app;
