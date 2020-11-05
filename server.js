@@ -1,5 +1,6 @@
 const express = require('express');
 const { createServer } = require('http');
+const { graphqlHTTP } = require('express-graphql');
 const loggerHTTP = require('morgan');
 const dotENV = require('dotenv');
 
@@ -16,6 +17,6 @@ db(server);
 
 if (process.env.NODE_ENV === 'development') app.use(loggerHTTP('dev'));
 
-app.use('', (req, res, next) => res.status(200).send('Hello World!'));
+app.use('', graphqlHTTP({}));
 
 module.exports = app;
