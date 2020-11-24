@@ -11,8 +11,14 @@ const { sign } = require('jsonwebtoken');
 const Book = require('./models/Book');
 const User = require('./models/User');
 
+// Auth Middleware
+const isAuth = require('./middleware/is-auth');
+
 // Mongo Connection
 const db = require('./config/db');
+
+// Helpers
+const { getUserById } = require('./helpers/');
 
 const app = express();
 const server = createServer(app);
@@ -23,6 +29,9 @@ dotENV.config({ path: './config/config.env' });
 db(server);
 
 if (process.env.NODE_ENV === 'development') app.use(loggerHTTP('dev'));
+
+// Use Auth Middleware
+app.use(isAuth);
 
 app.use(
   '/',
@@ -37,6 +46,7 @@ app.use(
         _id: ID!
         email: String!
         date: String!
+        books: [Book!]
       }
 
       type Book {
@@ -44,9 +54,9 @@ app.use(
         name: String!
         description: String!
         publishedAt: String!
-        author: String
+        author: User!
       }
-      
+
       input AuthInput {
         email: String!
         password: String!
@@ -75,12 +85,17 @@ app.use(
     `),
     rootValue: {
       // Get All Books
-      books: async () => {
+      books: async (args) => {
         try {
           const books = await Book.find().lean();
-          return books;
+          return books.length
+            ? books.map(async (book) => ({
+                ...book,
+                author: await getUserById(book.author),
+              }))
+            : [];
         } catch (error) {
-          console.log(error.message);
+          throw error;
         }
       },
 
@@ -89,24 +104,31 @@ app.use(
         const { id } = args;
         try {
           const book = await Book.findById(id).lean();
-          return book;
+          return { ...book, author: await getUserById(book.author) };
         } catch (error) {
-          console.log(error.message);
+          throw error;
         }
       },
 
       // Create Book
-      createBook: async (args) => {
+      createBook: async (args, req) => {
+        if (!req.isAuth) return new Error('Authorization failed!');
+
+        const { id } = req.user;
         const { name, description } = args.bookInput;
+
         try {
+          const user = await User.findById(id).lean();
+          if (!user) return new Error('Auth user not found, Access denied!');
+
           const book = await new Book({
             name,
             description,
-            author: null,
+            author: id,
           }).save();
-          return book;
+          return { ...book._doc, author: await getUserById(id) };
         } catch (error) {
-          console.log(error.message);
+          throw error;
         }
       },
 
@@ -130,12 +152,13 @@ app.use(
           });
           return { token, user };
         } catch (error) {
-          console.log(error.message);
+          throw error;
         }
       },
 
       // Authenticate User
-      authenticateUser: async (args) => {
+      authenticateUser: async (args, req) => {
+        console.group(req.user);
         const { email, password } = args.authInput;
         try {
           const user = await User.findOne({ email }).lean();
@@ -149,7 +172,7 @@ app.use(
           });
           return { token, user };
         } catch (error) {
-          console.log(error.message);
+          throw error;
         }
       },
     },

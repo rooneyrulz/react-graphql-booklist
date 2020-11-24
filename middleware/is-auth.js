@@ -5,7 +5,7 @@ module.exports = (req, res, next) => {
     ? req.get('x-auth-token').split(' ')[1]
     : null;
 
-  if (token) {
+  if (!token) {
     req.isAuth = false;
     return next();
   }
@@ -25,6 +25,6 @@ module.exports = (req, res, next) => {
   }
 
   req.isAuth = true;
-  req.user = decodedToken.id;
+  req.user = decodedToken;
   next();
 };
