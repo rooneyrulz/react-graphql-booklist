@@ -11,15 +11,6 @@ const getUserById = async (id) => {
   }
 };
 
-// Get Book By Id
-const getBookById = async (id) => {
-  try {
-    return await Book.findById(id).lean();
-  } catch (error) {
-    throw error;
-  }
-};
-
 // Get All Of Books By User
 const getBooksByUser = async (id) => {
   try {
@@ -32,4 +23,4 @@ const getBooksByUser = async (id) => {
   }
 };
 
-module.exports = { getBookById, getUserById, getBooksByUser };
+module.exports = { getUserById, getBooksByUser };
