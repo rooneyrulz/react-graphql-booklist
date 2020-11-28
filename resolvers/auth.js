@@ -49,7 +49,10 @@ module.exports = {
       const token = sign({ id: user._id }, process.env.JWT_SECRET, {
         expiresIn: 360000,
       });
-      return { token, user };
+      return {
+        token,
+        user: { ...user, books: await getBooksByUser(user._id) },
+      };
     } catch (error) {
       throw error;
     }
