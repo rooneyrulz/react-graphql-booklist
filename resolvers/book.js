@@ -74,6 +74,7 @@ module.exports = {
         { name, description, author: req.user._id },
         { new: true }
       ).lean();
+
       return {
         ...updatedBook._doc,
         author: await getUserById(updatedBook.author),
@@ -98,7 +99,9 @@ module.exports = {
 
       if (book.author.toString() !== user._id.toString())
         return new Error('Access denied, Forbidden');
+
       await book.remove();
+
       return `Book with id ${book._id} has been successfully removed!`;
     } catch (error) {
       throw error;

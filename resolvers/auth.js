@@ -6,6 +6,7 @@ const { getBooksByUser } = require('../helpers');
 
 // Models
 const User = require('../models/User');
+const Book = require('../models/Book');
 
 module.exports = {
   // Create User
@@ -65,6 +66,26 @@ module.exports = {
       const user = await User.findById(id).lean();
       if (!user) return new Error('Access denied, Auth user not found!');
       return { ...user._doc, books: await getBooksByUser(id) };
-    } catch (error) {}
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  // Remove User | Delete Account
+  removeUser: async (args, req) => {
+    const { id } = req.user;
+
+    try {
+      const user = await User.findById(id).lean();
+      if (!user) return new Error('Access denied, Unauthorized!');
+
+      const book = await Book.find({ author: id }).lean();
+      if (book.length) await Book.deleteMany({ author: id }).exec();
+
+      await User.findByIdAndDelete(id).exec();
+      return 'Account has been successfully deleted!';
+    } catch (error) {
+      throw error;
+    }
   },
 };
