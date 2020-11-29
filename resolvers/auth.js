@@ -38,7 +38,6 @@ module.exports = {
 
   // Authenticate User
   authenticateUser: async (args, req) => {
-    console.group(req.user);
     const { email, password } = args.authInput;
     try {
       const user = await User.findOne({ email }).lean();
@@ -61,11 +60,14 @@ module.exports = {
 
   // Get Authenticated User
   getAuthenticatedUser: async (args, req) => {
+    if (!req.isAuth) return new Error('Authorization failed!');
+
     const { id } = req.user;
     try {
       const user = await User.findById(id).lean();
       if (!user) return new Error('Access denied, Auth user not found!');
-      return { ...user._doc, books: await getBooksByUser(id) };
+
+      return { ...user, books: await getBooksByUser(id) };
     } catch (error) {
       throw error;
     }
@@ -73,6 +75,8 @@ module.exports = {
 
   // Remove User | Delete Account
   removeUser: async (args, req) => {
+    if (!req.isAuth) return new Error('Authorization failed!');
+
     const { id } = req.user;
 
     try {

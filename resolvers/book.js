@@ -1,9 +1,13 @@
 const Book = require('../models/Book');
+const User = require('../models/User');
+
 const { getUserById } = require('../helpers');
 
 module.exports = {
   // Get All Books
-  books: async () => {
+  books: async (args, req) => {
+    if (!req.isAuth) return new Error('Authorization failed!');
+
     try {
       const books = await Book.find().lean();
       return books.length
@@ -18,10 +22,14 @@ module.exports = {
   },
 
   // Get Book By Id
-  book: async (args) => {
+  book: async (args, req) => {
+    if (!req.isAuth) return new Error('Authorization failed!');
+
     const { id } = args;
     try {
       const book = await Book.findById(id).lean();
+      if (!book) throw new Error('Book with the id not found!');
+
       return { ...book, author: await getUserById(book.author) };
     } catch (error) {
       throw error;
@@ -100,7 +108,7 @@ module.exports = {
       if (book.author.toString() !== user._id.toString())
         return new Error('Access denied, Forbidden');
 
-      await book.remove();
+      await Book.findByIdAndDelete(book._id).exec();
 
       return `Book with id ${book._id} has been successfully removed!`;
     } catch (error) {
