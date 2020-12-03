@@ -19,10 +19,12 @@ const server = createServer(app);
 
 dotENV.config({ path: './config/config.env' });
 
-// Establish Mongo Connection & Listening to Server
-db(server);
+if (process.env.NODE_ENV === 'production') console.log = function() {};
 
 if (process.env.NODE_ENV === 'development') app.use(loggerHTTP('dev'));
+
+// Establish Mongo Connection & Listening to Server
+db(server);
 
 // Use Auth Middleware
 app.use(isAuth);

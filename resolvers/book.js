@@ -68,7 +68,7 @@ module.exports = {
     } = args;
 
     try {
-      const user = await User.findById(req.user._id).lean();
+      const user = await User.findById(req.user.id).lean();
       if (!user) return new Error('Auth user not found, Access denied!');
 
       const book = await Book.findById(id).lean();
@@ -79,12 +79,12 @@ module.exports = {
 
       const updatedBook = await Book.findByIdAndUpdate(
         id,
-        { name, description, author: req.user._id },
+        { name, description, author: req.user.id },
         { new: true }
       ).lean();
 
       return {
-        ...updatedBook._doc,
+        ...updatedBook,
         author: await getUserById(updatedBook.author),
       };
     } catch (error) {

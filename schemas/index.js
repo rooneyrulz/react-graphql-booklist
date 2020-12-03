@@ -39,6 +39,7 @@ module.exports = buildSchema(`
 
     type RootMutation {
         createBook(bookInput: BookInput): Book
+        updateBook(id: ID!, bookInput: BookInput): Book
         removeBook(id: ID!): String!
         createUser(authInput: AuthInput): AuthData
         authenticateUser(authInput: AuthInput): AuthData
