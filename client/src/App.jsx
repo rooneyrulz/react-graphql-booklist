@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 // Layouts
 import AppHeader from './layouts/AppHeader';
@@ -16,10 +16,10 @@ import Login from './pages/auth/Login';
 
 const App = () => {
   return (
-    <>
-      <AppHeader />
-      <main>
-        <BrowserRouter>
+    <Router>
+      <>
+        <AppHeader />
+        <main className='container'>
           <Switch>
             <Route exact path='/' component={Home} />
             <Route exact path='/books' component={Books} />
@@ -28,10 +28,10 @@ const App = () => {
             <Route exact path='/my-books' component={MyBooks} />
             <Route exact path='/dashboard' component={Dashboard} />
           </Switch>
-        </BrowserRouter>
-      </main>
-      <AppFooter />
-    </>
+        </main>
+        <AppFooter />
+      </>
+    </Router>
   );
 };
 
