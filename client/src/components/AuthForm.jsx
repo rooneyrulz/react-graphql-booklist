@@ -40,8 +40,12 @@ const AuthForm = ({ isLogin = false }) => {
           onChange={(e) => onChange(e)}
         />
       </Form.Group>
-      <Button variant='primary' type='submit'>
-        {isLogin ? 'Login' : 'Register'}
+      <Button
+        variant='primary'
+        type='submit'
+        className={isLogin ? 'btn__login' : 'btn__register'}
+      >
+        {isLogin ? 'Sign In' : 'Sign Up'}
       </Button>
     </Form>
   );

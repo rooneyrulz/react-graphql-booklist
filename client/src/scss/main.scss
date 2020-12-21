@@ -1,5 +1,17 @@
+// Plugins
 @import "./plugins/bootstrap";
+
+// Helpers
 @import "./helpers/fonts";
 @import "./helpers/resets";
 @import "./helpers/customs";
+
+// Components
 @import "./components/buttons";
+
+// Layouts
+@import "./layouts/header";
+
+// Pages
+@import "./pages/auth";
+@import "./pages/home";

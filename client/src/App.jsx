@@ -9,24 +9,24 @@ import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
 import Books from './pages/Books';
 import MyBooks from './pages/MyBooks';
+import NotFound from './pages/NotFound';
 
 // Auth Pages
-import Register from './pages/auth/Register';
-import Login from './pages/auth/Login';
+import Auth from './pages/auth/Auth';
 
 const App = () => {
   return (
     <Router>
       <>
         <AppHeader />
-        <main className='container'>
+        <main>
           <Switch>
             <Route exact path='/' component={Home} />
             <Route exact path='/books' component={Books} />
-            <Route exact path='/login' component={Login} />
-            <Route exact path='/register' component={Register} />
+            <Route exact path='/auth' component={Auth} />
             <Route exact path='/my-books' component={MyBooks} />
             <Route exact path='/dashboard' component={Dashboard} />
+            <Route component={NotFound} />
           </Switch>
         </main>
         <AppFooter />

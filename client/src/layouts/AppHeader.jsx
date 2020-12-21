@@ -30,22 +30,19 @@ const AppHeader = () => {
       <NavLink exact to='/books' className='nav-link'>
         Books
       </NavLink>
-      <NavLink exact to='/register' className='nav-link'>
-        Register
-      </NavLink>
       <NavLink
         exact
-        to='/login'
+        to='/auth'
         className='nav-link'
         onClick={(e) => onLogIn(e)}
       >
-        Login
+        Get In
       </NavLink>
     </>
   );
 
   return (
-    <Navbar bg='light' expand='md'>
+    <Navbar variant='dark' expand='md'>
       <Container>
         <Link to='/' className='navbar-brand'>
           Book List
