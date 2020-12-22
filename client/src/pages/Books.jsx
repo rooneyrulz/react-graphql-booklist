@@ -2,8 +2,10 @@ import React from 'react';
 
 const Books = () => {
   return (
-    <div>
-      <h1>Books</h1>
+    <div className='page__books'>
+      <div className='container'>
+        <h1>Books</h1>
+      </div>
     </div>
   );
 };

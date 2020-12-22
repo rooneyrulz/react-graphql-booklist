@@ -1,5 +1,8 @@
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
+// Redux
+import store from './store';
+
 // Layouts
 import AppHeader from './layouts/AppHeader';
 import AppFooter from './layouts/AppFooter';
