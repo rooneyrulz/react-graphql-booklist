@@ -1,6 +1,6 @@
 {
     "short_name": "Book List",
-    "name": "React GraphQL Book List",
+    "name": "Simple Book List Application",
     "icons": [{
         "src": "favicon.ico",
         "sizes": "64x64 32x32 24x24 16x16",
