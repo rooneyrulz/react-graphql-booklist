@@ -24,14 +24,14 @@ const loadUser = () => async (dispatch) => {
     query: `
       query {
         getAuthenticatedUser {
-            _id,
-            email,
-            date,
+            _id
+            email
+            date
             books {
-              _id,
-              name,
-              description,
-              publishedAt,
+              _id
+              name
+              description
+              publishedAt
             }
           }
         }
@@ -39,7 +39,7 @@ const loadUser = () => async (dispatch) => {
   });
 
   try {
-    const res = await axios.get('/', body, config);
+    const res = await axios.post('/', body, config);
     console.log(res);
   } catch (error) {
     console.log(error);
@@ -49,6 +49,9 @@ const loadUser = () => async (dispatch) => {
 
 // Login User
 const loginUser = ({ email, password }) => async (dispatch) => {
+  if (!email.trim() || !password.trim())
+    return console.log('Please fill all fields!');
+
   const config = {
     header: {
       'Content-Type': 'application/json',
@@ -66,7 +69,7 @@ const loginUser = ({ email, password }) => async (dispatch) => {
   });
 
   try {
-    const res = await axios.get('/', body, config);
+    const res = await axios.post('/', body, config);
     console.log(res);
   } catch (error) {
     console.log(error);
@@ -77,6 +80,9 @@ const loginUser = ({ email, password }) => async (dispatch) => {
 
 // Register User
 const registerUser = ({ email, password }) => async (dispatch) => {
+  if (!email.trim() || !password.trim())
+    return console.log('Please fill all fields!');
+
   const config = {
     header: {
       'Content-Type': 'application/json',
@@ -94,7 +100,7 @@ const registerUser = ({ email, password }) => async (dispatch) => {
   });
 
   try {
-    const res = await axios.get('/', body, config);
+    const res = await axios.post('/', body, config);
     console.log(res);
   } catch (error) {
     console.log(error);
