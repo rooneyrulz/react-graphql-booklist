@@ -23,13 +23,24 @@ const loadUser = () => async (dispatch) => {
   const body = JSON.stringify({
     query: `
       query {
-          authUser {}
+        getAuthenticatedUser {
+            _id
+            email
+            date
+            books {
+              _id
+              name
+              description
+              publishedAt
+            }
+          }
         }
       `,
   });
 
   try {
-    const res = await axios.get('/', body, config);
+    const res = await axios.post('/', body, config);
+    console.log(res);
   } catch (error) {
     console.log(error);
     dispatch({ type: AUTH_ERROR, payload: {} });
@@ -38,6 +49,9 @@ const loadUser = () => async (dispatch) => {
 
 // Login User
 const loginUser = ({ email, password }) => async (dispatch) => {
+  if (!email.trim() || !password.trim())
+    return console.log('Please fill all fields!');
+
   const config = {
     header: {
       'Content-Type': 'application/json',
@@ -47,13 +61,16 @@ const loginUser = ({ email, password }) => async (dispatch) => {
   const body = JSON.stringify({
     query: `
       query {
-          authenticateUser() {}
+          authenticateUser(authInput: {email: "${email}", password: "${password}"}) {
+            token
+          }
         }
       `,
   });
 
   try {
-    const res = await axios.get('/', body, config);
+    const res = await axios.post('/', body, config);
+    console.log(res);
   } catch (error) {
     console.log(error);
     dispatch({ type: LOGIN_FAIL, payload: {} });
@@ -63,6 +80,9 @@ const loginUser = ({ email, password }) => async (dispatch) => {
 
 // Register User
 const registerUser = ({ email, password }) => async (dispatch) => {
+  if (!email.trim() || !password.trim())
+    return console.log('Please fill all fields!');
+
   const config = {
     header: {
       'Content-Type': 'application/json',
@@ -72,13 +92,16 @@ const registerUser = ({ email, password }) => async (dispatch) => {
   const body = JSON.stringify({
     query: `
       mutation {
-          createUser() {}
+        createUser(authInput: {email: "${email}", password: "${password}"}) {
+          token
         }
-      `,
+      }
+    `,
   });
 
   try {
-    const res = await axios.get('/', body, config);
+    const res = await axios.post('/', body, config);
+    console.log(res);
   } catch (error) {
     console.log(error);
     dispatch({ type: REGISTER_FAIL, payload: {} });
