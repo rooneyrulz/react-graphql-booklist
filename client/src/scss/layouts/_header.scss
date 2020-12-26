@@ -1,0 +1,13 @@
+nav {
+    margin-bottom: 4rem;
+    z-index: 2;
+    background-color: darken($color: #000000, $amount: 25%);
+    .navbar-toggler {
+        margin-top: 0;
+        font-size: 1rem;
+        border: none;
+        border-radius: 0;
+        outline: none;
+    }
+    .navbar-collapse {}
+}
