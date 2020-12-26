@@ -1,3 +1,3 @@
-const bookReducer = () => {};
+const bookReducer = () => null;
 
 export default bookReducer;

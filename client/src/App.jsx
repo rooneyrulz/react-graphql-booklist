@@ -13,9 +13,9 @@ import Dashboard from './pages/Dashboard';
 import Books from './pages/Books';
 import MyBooks from './pages/MyBooks';
 import NotFound from './pages/NotFound';
-
-// Auth Pages
 import Auth from './pages/auth/Auth';
+
+import PrivateRoute from './components/routing/PrivateRoute';
 
 const App = () => {
   return (
@@ -27,8 +27,8 @@ const App = () => {
             <Route exact path='/' component={Home} />
             <Route exact path='/books' component={Books} />
             <Route exact path='/auth' component={Auth} />
-            <Route exact path='/my-books' component={MyBooks} />
-            <Route exact path='/dashboard' component={Dashboard} />
+            <PrivateRoute exact path='/my-books' component={MyBooks} />
+            <PrivateRoute exact path='/dashboard' component={Dashboard} />
             <Route component={NotFound} />
           </Switch>
         </main>

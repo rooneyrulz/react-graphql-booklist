@@ -1,3 +1,3 @@
-const alertReducer = () => {};
+const alertReducer = () => null;
 
 export default alertReducer;
