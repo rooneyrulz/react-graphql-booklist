@@ -36,7 +36,6 @@ const authReducer = (state = initialState, action) => {
         loading: false,
         isAuthenticated: true,
         token: payload.token,
-        user: payload.user,
       };
 
     case REGISTER_FAIL:

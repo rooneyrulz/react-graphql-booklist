@@ -1,8 +1,13 @@
 import React from 'react';
 import { Form, Button } from 'react-bootstrap';
 
-const AuthForm = ({ isLogin = false }) => {
+import { connect } from 'react-redux';
+import { loginUser, registerUser } from '../actions/auth';
+
+const AuthForm = ({ isLogin = false, loginUser, registerUser }) => {
   const [formData, setFormData] = React.useState({ email: '', password: '' });
+
+  const { email, password } = formData;
 
   const onChange = (e) =>
     setFormData((prev) => ({
@@ -12,8 +17,11 @@ const AuthForm = ({ isLogin = false }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    isLogin ? console.log('Login') : console.log('Register');
-    console.log(formData);
+    return !email.trim() || !password.trim()
+      ? console.log('Please fill out all fields!')
+      : isLogin
+      ? loginUser({ email, password })
+      : registerUser({ email, password });
   };
 
   return (
@@ -51,4 +59,8 @@ const AuthForm = ({ isLogin = false }) => {
   );
 };
 
-export default AuthForm;
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps, { loginUser, registerUser })(AuthForm);
