@@ -12,13 +12,13 @@ const Auth = () => {
       <div className='container'>
         <div className='header'>
           <h1> {isChecked ? 'Sign In' : 'Sign Up'}</h1>
-          <label class='switch'>
+          <label className='switch'>
             <input
               type='checkbox'
               checked={isChecked}
               onChange={(e) => onChange(e)}
             />
-            <span class='slider round'></span>
+            <span className='slider round'></span>
           </label>
         </div>
 

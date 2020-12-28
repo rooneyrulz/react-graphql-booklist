@@ -10,84 +10,99 @@ import {
 } from './types';
 import setHeader from '../utils/set-header';
 
+const API_URI = 'http://localhost:5000/graphql';
+
 // Load the user
-const loadUser = () => async (dispatch) => {
+export const loadUser = () => async (dispatch) => {
   if (localStorage.token) setHeader(localStorage.token);
 
+  const body = JSON.stringify({
+    query: `
+    query {
+      getAuthenticatedUser {
+        _id
+        email
+        date
+        books {
+          _id
+          name
+          description
+          publishedAt
+        }
+      }
+    }
+    `,
+  });
+
   const config = {
-    header: {
+    headers: {
       'Content-Type': 'application/json',
     },
   };
 
-  const body = JSON.stringify({
-    query: `
-      query {
-        getAuthenticatedUser {
-            _id
-            email
-            date
-            books {
-              _id
-              name
-              description
-              publishedAt
-            }
-          }
-        }
-      `,
-  });
-
   try {
-    const res = await axios.post('/', body, config);
-    console.log(res);
+    const res = await axios.post(`http://localhost:5000/graphql`, body, config);
+    if (res.data.data.getAuthenticatedUser) {
+      dispatch({
+        type: USER_LOADED,
+        payload: res.data.data.getAuthenticatedUser,
+      });
+    } else {
+      const errors = res.data.errors
+        ? res.data.errors.map((err) => ({ type: 'auth', msg: err.message }))
+        : [];
+      dispatch({ type: AUTH_ERROR, payload: errors });
+    }
   } catch (error) {
-    console.log(error);
-    dispatch({ type: AUTH_ERROR, payload: {} });
+    dispatch({ type: AUTH_ERROR, payload: [] });
   }
 };
 
 // Login User
-const loginUser = ({ email, password }) => async (dispatch) => {
+export const loginUser = ({ email, password }) => async (dispatch) => {
   if (!email.trim() || !password.trim())
     return console.log('Please fill all fields!');
-
-  const config = {
-    header: {
-      'Content-Type': 'application/json',
-    },
-  };
 
   const body = JSON.stringify({
     query: `
       query {
-          authenticateUser(authInput: {email: "${email}", password: "${password}"}) {
-            token
-          }
+        authenticateUser(authInput: {email: "${email}", password: "${password}"}) {
+          token
         }
+      }
       `,
+    variables: {},
   });
 
-  try {
-    const res = await axios.post('/', body, config);
-    console.log(res);
-  } catch (error) {
-    console.log(error);
-    dispatch({ type: LOGIN_FAIL, payload: {} });
-  }
-  dispatch(loadUser());
-};
-
-// Register User
-const registerUser = ({ email, password }) => async (dispatch) => {
-  if (!email.trim() || !password.trim())
-    return console.log('Please fill all fields!');
-
   const config = {
-    header: {
+    headers: {
       'Content-Type': 'application/json',
     },
   };
+
+  try {
+    const res = await axios.post(`http://localhost:5000/graphql`, body, config);
+    if (res.data.data.authenticateUser) {
+      dispatch({
+        type: LOGIN_SUCCESS,
+        payload: res.data.data.authenticateUser,
+      });
+      dispatch(loadUser());
+    } else {
+      const errors = res.data.errors
+        ? res.data.errors.map((err) => ({ type: 'login', msg: err.message }))
+        : [];
+      dispatch({ type: LOGIN_FAIL, payload: errors });
+    }
+  } catch (error) {
+    dispatch({ type: LOGIN_FAIL, payload: [] });
+  }
+};
+
+// Register User
+export const registerUser = ({ email, password }) => async (dispatch) => {
+  if (!email.trim() || !password.trim())
+    return console.log('Please fill all fields!');
 
   const body = JSON.stringify({
     query: `
@@ -96,20 +111,35 @@ const registerUser = ({ email, password }) => async (dispatch) => {
           token
         }
       }
-    `,
+      `,
+    variables: {},
   });
 
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
   try {
-    const res = await axios.post('/', body, config);
-    console.log(res);
+    const res = await axios.post(`http://localhost:5000/graphql`, body, config);
+    if (res.data.data.createUser) {
+      dispatch({
+        type: REGISTER_SUCCESS,
+        payload: res.data.data.createUser,
+      });
+      dispatch(loadUser());
+    } else {
+      const errors = res.data.errors
+        ? res.data.errors.map((err) => ({ type: 'register', msg: err.message }))
+        : [];
+      dispatch({ type: REGISTER_FAIL, payload: errors });
+    }
   } catch (error) {
-    console.log(error);
-    dispatch({ type: REGISTER_FAIL, payload: {} });
+    dispatch({ type: REGISTER_FAIL, payload: [] });
   }
-  dispatch(loadUser());
 };
 
 // Logout User
-const logoutUser = () => (dispatch) => dispatch({ type: LOGOUT });
-
-export default { loadUser, loginUser, registerUser, logoutUser };
+export const logoutUser = () => (dispatch) =>
+  dispatch({ type: LOGOUT, payload: [] });

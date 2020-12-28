@@ -35,6 +35,7 @@
     type RootQuery {
         books: [Book!]!
         book(id: String!): Book!
+        authenticateUser(authInput: AuthInput): AuthData
         getAuthenticatedUser: User!
     }
 
@@ -43,7 +44,6 @@
         updateBook(id: ID!, bookInput: BookInput): Book
         removeBook(id: ID!): String!
         createUser(authInput: AuthInput): AuthData
-        authenticateUser(authInput: AuthInput): AuthData
         removeUser: String!
     }
 

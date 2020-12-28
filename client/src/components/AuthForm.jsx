@@ -17,9 +17,7 @@ const AuthForm = ({ isLogin = false, loginUser, registerUser }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    return !email.trim() || !password.trim()
-      ? console.log('Please fill out all fields!')
-      : isLogin
+    isLogin
       ? loginUser({ email, password })
       : registerUser({ email, password });
   };

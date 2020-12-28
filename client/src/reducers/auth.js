@@ -13,7 +13,7 @@ const initialState = {
   token: localStorage.getItem('token'),
   user: {},
   isAuthenticated: null,
-  error: {},
+  errors: [],
 };
 
 const authReducer = (state = initialState, action) => {
@@ -49,7 +49,7 @@ const authReducer = (state = initialState, action) => {
         isAuthenticated: false,
         token: null,
         user: {},
-        error: payload,
+        errors: [...state.errors, ...payload],
       };
 
     default:

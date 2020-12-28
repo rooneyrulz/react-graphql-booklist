@@ -1,7 +1,9 @@
+import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 // Redux
-import store from './store';
+import { connect } from 'react-redux';
+import { loadUser } from './actions/auth';
 
 // Layouts
 import AppHeader from './layouts/AppHeader';
@@ -16,26 +18,39 @@ import NotFound from './pages/NotFound';
 import Auth from './pages/auth/Auth';
 
 import PrivateRoute from './components/routing/PrivateRoute';
+import PublicRoute from './components/routing/PublicRoute';
+import setHeader from './utils/set-header';
 
-const App = () => {
+if (localStorage.token) setHeader(localStorage.token);
+
+const App = ({ auth: { loading }, loadUser }) => {
+  React.useEffect(() => {
+    loadUser();
+  }, [loadUser]);
+
   return (
-    <Router>
-      <>
-        <AppHeader />
-        <main>
-          <Switch>
-            <Route exact path='/' component={Home} />
-            <Route exact path='/books' component={Books} />
-            <Route exact path='/auth' component={Auth} />
-            <PrivateRoute exact path='/my-books' component={MyBooks} />
-            <PrivateRoute exact path='/dashboard' component={Dashboard} />
-            <Route component={NotFound} />
-          </Switch>
-        </main>
-        <AppFooter />
-      </>
-    </Router>
+    !loading && (
+      <Router>
+        <>
+          <AppHeader />
+          <main>
+            <Switch>
+              <PublicRoute exact path='/' component={Home} />
+              <PublicRoute exact path='/books' component={Books} />
+              <PublicRoute exact path='/auth' component={Auth} />
+              <PrivateRoute exact path='/my-books' component={MyBooks} />
+              <PrivateRoute exact path='/dashboard' component={Dashboard} />
+              <Route component={NotFound} />
+            </Switch>
+          </main>
+        </>
+      </Router>
+    )
   );
 };
 
-export default App;
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps, { loadUser })(App);

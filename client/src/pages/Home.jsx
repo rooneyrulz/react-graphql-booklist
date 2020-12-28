@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Home = () => {
   return (
@@ -10,9 +11,9 @@ const Home = () => {
           aut optio non adipisci corporis praesentium minima ipsa, tempore
           explicabo ipsum.
         </p>
-        <a href='#' className='btn__home'>
+        <Link to='/dashboard' className='btn__home'>
           Let's Build
-        </a>
+        </Link>
       </div>
     </div>
   );

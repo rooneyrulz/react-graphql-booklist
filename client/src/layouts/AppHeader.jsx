@@ -2,12 +2,11 @@ import React from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import { Navbar, Nav, Container } from 'react-bootstrap';
 
-const AppHeader = () => {
-  const [isAuth, setIsAuth] = React.useState(null);
+// Redux
+import { connect } from 'react-redux';
+import { logoutUser } from '../actions/auth';
 
-  const onLogIn = (e) => setIsAuth((prev) => true);
-  const onLogOut = (e) => setIsAuth((prev) => false);
-
+const AppHeader = ({ auth: { isAuthenticated }, logoutUser }) => {
   const authLinks = (
     <>
       <NavLink exact to='/dashboard' className='nav-link'>
@@ -16,7 +15,7 @@ const AppHeader = () => {
       <NavLink exact to='/my-books' className='nav-link'>
         MyBooks
       </NavLink>
-      <Link to='#' className='nav-link' onClick={(e) => onLogOut(e)}>
+      <Link to='#' className='nav-link' onClick={(e) => logoutUser(e)}>
         Logout
       </Link>
     </>
@@ -30,12 +29,7 @@ const AppHeader = () => {
       <NavLink exact to='/books' className='nav-link'>
         Books
       </NavLink>
-      <NavLink
-        exact
-        to='/auth'
-        className='nav-link'
-        onClick={(e) => onLogIn(e)}
-      >
+      <NavLink exact to='/auth' className='nav-link'>
         Get In
       </NavLink>
     </>
@@ -49,11 +43,17 @@ const AppHeader = () => {
         </Link>
         <Navbar.Toggle aria-controls='basic-navbar-nav' />
         <Navbar.Collapse id='basic-navbar-nav'>
-          <Nav className='ml-auto'>{isAuth ? authLinks : guestLinks}</Nav>
+          <Nav className='ml-auto'>
+            {isAuthenticated ? authLinks : guestLinks}
+          </Nav>
         </Navbar.Collapse>
       </Container>
     </Navbar>
   );
 };
 
-export default AppHeader;
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps, { logoutUser })(AppHeader);
