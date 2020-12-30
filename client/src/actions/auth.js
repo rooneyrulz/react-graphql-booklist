@@ -9,6 +9,7 @@ import {
   LOGOUT,
 } from './types';
 import setHeader from '../utils/set-header';
+import setAlert from './alert';
 
 const API_URI = 'http://localhost:5000/graphql';
 
@@ -49,19 +50,50 @@ export const loadUser = () => async (dispatch) => {
       });
     } else {
       const errors = res.data.errors
-        ? res.data.errors.map((err) => ({ type: 'auth', msg: err.message }))
+        ? res.data.errors.map((err) => ({
+            msg: err.message,
+            status: 401,
+            type: 'AUTH_ERROR',
+          }))
         : [];
       dispatch({ type: AUTH_ERROR, payload: errors });
     }
   } catch (error) {
-    dispatch({ type: AUTH_ERROR, payload: [] });
+    dispatch({
+      type: AUTH_ERROR,
+      payload: [
+        {
+          msg: 'Something went wrong!',
+          status: 500,
+          alertType: 'AUTH_ERROR',
+        },
+      ],
+    });
   }
 };
 
 // Login User
 export const loginUser = ({ email, password }) => async (dispatch) => {
   if (!email.trim() || !password.trim())
-    return console.log('Please fill all fields!');
+    return (
+      dispatch({
+        type: LOGIN_FAIL,
+        payload: [
+          {
+            msg: 'Invalid fields!',
+            status: 400,
+            alertType: 'LOGIN_FAIL',
+          },
+        ],
+      }),
+      dispatch(
+        setAlert({
+          msg: 'Invalid fields!',
+          status: 400,
+          alertType: 'LOGIN_FAIL',
+        })
+      )
+    );
 
   const body = JSON.stringify({
     query: `
@@ -90,19 +122,64 @@ export const loginUser = ({ email, password }) => async (dispatch) => {
       dispatch(loadUser());
     } else {
       const errors = res.data.errors
-        ? res.data.errors.map((err) => ({ type: 'login', msg: err.message }))
+        ? res.data.errors.map((err) => ({
+            msg: err.message,
+            status: 409,
+            type: 'LOGIN_FAIL',
+          }))
         : [];
       dispatch({ type: LOGIN_FAIL, payload: errors });
+      dispatch(
+        setAlert({
+          msg: errors[0].msg,
+          status: 409,
+          alertType: 'LOGIN_FAIL',
+        })
+      );
     }
   } catch (error) {
-    dispatch({ type: LOGIN_FAIL, payload: [] });
+    dispatch({
+      type: LOGIN_FAIL,
+      payload: [
+        {
+          msg: 'Something went wrong!',
+          status: 500,
+          alertType: 'LOGIN_FAIL',
+        },
+      ],
+    });
+    dispatch(
+      setAlert({
+        msg: 'Something went wrong!',
+        status: 500,
+        alertType: 'LOGIN_FAIL',
+      })
+    );
   }
 };
 
 // Register User
 export const registerUser = ({ email, password }) => async (dispatch) => {
   if (!email.trim() || !password.trim())
-    return console.log('Please fill all fields!');
+    return (
+      dispatch({
+        type: REGISTER_FAIL,
+        payload: [
+          {
+            msg: 'Invalid fields!',
+            status: 400,
+            alertType: 'REGISTER_FAIL',
+          },
+        ],
+      }),
+      dispatch(
+        setAlert({
+          msg: 'Invalid fields!',
+          status: 400,
+          alertType: 'REGISTER_FAIL',
+        })
+      )
+    );
 
   const body = JSON.stringify({
     query: `
@@ -131,12 +208,39 @@ export const registerUser = ({ email, password }) => async (dispatch) => {
       dispatch(loadUser());
     } else {
       const errors = res.data.errors
-        ? res.data.errors.map((err) => ({ type: 'register', msg: err.message }))
+        ? res.data.errors.map((err) => ({
+            msg: err.message,
+            status: 409,
+            type: 'REGISTER_FAIL',
+          }))
         : [];
       dispatch({ type: REGISTER_FAIL, payload: errors });
+      dispatch(
+        setAlert({
+          msg: errors[0].msg,
+          status: 409,
+          alertType: 'REGISTER_FAIL',
+        })
+      );
     }
   } catch (error) {
-    dispatch({ type: REGISTER_FAIL, payload: [] });
+    dispatch({
+      type: REGISTER_FAIL,
+      payload: [
+        {
+          msg: 'Something went wrong!',
+          status: 500,
+          alertType: 'REGISTER_FAIL',
+        },
+      ],
+    });
+    dispatch(
+      setAlert({
+        msg: 'Something went wrong!',
+        status: 500,
+        alertType: 'REGISTER_FAIL',
+      })
+    );
   }
 };
 
