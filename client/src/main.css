@@ -10863,7 +10863,8 @@ input.form-control:focus {
 button,
 .page__auth form .btn__login,
 .page__auth form .btn__register,
-.page__home .container .btn__home {
+.page__home .container .btn__home,
+.page__notfound a {
   margin-top: 1rem;
   padding: 1rem 2rem;
   border: none;
@@ -11116,4 +11117,48 @@ nav .navbar-toggler {
   background: radial-gradient(coral, #772204);
   -webkit-transform: scale(1.1);
           transform: scale(1.1);
+}
+
+.page__notfound {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  text-align: center;
+}
+
+.page__notfound h1 {
+  margin-bottom: 4rem;
+  font-size: 50px;
+}
+
+.page__notfound p {
+  margin-bottom: 4rem;
+}
+
+.page__notfound p i {
+  font-size: 16rem;
+}
+
+.page__notfound a {
+  display: inline-block;
+  background-color: coral;
+  padding: 1rem 3rem;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 0.25em;
 }

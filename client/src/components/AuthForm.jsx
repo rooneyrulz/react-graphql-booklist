@@ -30,6 +30,7 @@ const AuthForm = ({ isLogin = false, loginUser, registerUser }) => {
           type='email'
           name='email'
           placeholder='Enter email'
+          autoComplete='off'
           onChange={(e) => onChange(e)}
         />
         <Form.Text className='text-muted'>
@@ -43,6 +44,7 @@ const AuthForm = ({ isLogin = false, loginUser, registerUser }) => {
           type='password'
           name='password'
           placeholder='Password'
+          autoComplete='off'
           onChange={(e) => onChange(e)}
         />
       </Form.Group>

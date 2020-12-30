@@ -1,10 +1,15 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const NotFound = () => {
   return (
     <div className='page__notfound'>
       <div className='container'>
-        <h1>Page NotFound..!</h1>
+        <h1>Oops..!</h1>
+        <p>
+          <i class='far fa-frown fa-9x'></i>
+        </p>
+        <Link to='/'>Go Home</Link>
       </div>
     </div>
   );
