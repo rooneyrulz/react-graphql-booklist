@@ -1,18 +1,15 @@
 // Plugins
-@import "./plugins/bootstrap";
-
+@import './plugins/bootstrap';
 // Helpers
-@import "./helpers/fonts";
-@import "./helpers/resets";
-@import "./helpers/customs";
-
+@import './helpers/fonts';
+@import './helpers/resets';
+@import './helpers/customs';
 // Components
-@import "./components/buttons";
-
+@import './components/buttons';
 // Layouts
-@import "./layouts/header";
-
+@import './layouts/header';
+@import './layouts/alert';
 // Pages
-@import "./pages/auth";
-@import "./pages/home";
-@import "./pages/notfound";
+@import './pages/auth';
+@import './pages/home';
+@import './pages/notfound';

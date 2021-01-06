@@ -8,6 +8,7 @@ import { loadUser } from './actions/auth';
 // Layouts
 import AppHeader from './layouts/AppHeader';
 import AppFooter from './layouts/AppFooter';
+import Alert from './layouts/alert/Alert';
 
 // Pages
 import Home from './pages/Home';
@@ -33,6 +34,7 @@ const App = ({ auth: { loading }, loadUser }) => {
       <Router>
         <>
           <AppHeader />
+          <Alert />
           <main>
             <Switch>
               <PublicRoute exact path='/' component={Home} />
