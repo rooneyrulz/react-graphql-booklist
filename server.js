@@ -3,6 +3,7 @@ const { createServer } = require('http');
 const { graphqlHTTP } = require('express-graphql');
 const loggerHTTP = require('morgan');
 const dotENV = require('dotenv');
+const path = require('path');
 
 // Schemas & Resolvers
 const schema = require('./schemas/');
