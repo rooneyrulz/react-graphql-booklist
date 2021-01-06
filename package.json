@@ -6,7 +6,7 @@
     "repository": "https://github.com/rooneyrulz/react-graphql-booklist.git",
     "author": "ruzny <ruzny@ruzny.com>",
     "scripts": {
-        "start": "cross-env NODE_ENV=production node server.js",
+        "start": "node server.js",
         "server": "cross-env NODE_ENV=development nodemon server.js",
         "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
     },
