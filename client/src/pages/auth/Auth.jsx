@@ -1,11 +1,18 @@
 import React from 'react';
 
+// Redux
+import { connect } from 'react-redux';
+import { clearAlerts } from '../../actions/alert';
+
 // Components
 import AuthForm from '../../components/AuthForm';
 
-const Auth = () => {
+const Auth = ({ clearAlerts }) => {
   const [isChecked, setIsChecked] = React.useState(true);
-  const onChange = (e) => setIsChecked((prev) => !prev);
+  const onChange = (e) => {
+    setIsChecked((prev) => !prev);
+    clearAlerts();
+  };
 
   return (
     <div className='page__auth'>
@@ -28,4 +35,4 @@ const Auth = () => {
   );
 };
 
-export default Auth;
+export default connect(null, { clearAlerts })(Auth);

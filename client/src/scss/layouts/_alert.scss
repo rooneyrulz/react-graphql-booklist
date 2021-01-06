@@ -1,12 +1,17 @@
-.alert {
-    width: max-content;
-    padding: 0.5rem 1.25rem;
-    margin-bottom: 0.5rem;
-    z-index: 2;
-}
-
-.alert-danger {
-    background-color: #ff4681;
-    border-color: #eb004b;
-    color: azure;
+.alert-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    .alert {
+        display: block;
+        width: fit-content;
+        padding: 0.5rem 1.25rem;
+        margin-bottom: 0.5rem;
+        z-index: 2;
+    }
+    .alert-danger {
+        background-color: #ff4681;
+        border-color: #eb004b;
+        color: azure;
+    }
 }

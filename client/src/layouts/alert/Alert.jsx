@@ -5,7 +5,7 @@ import AlertItem from './AlertItem';
 
 const Alert = ({ alerts }) => {
   return alerts.length ? (
-    <div className='container'>
+    <div className='container alert-container'>
       {alerts.map((alert) => (
         <AlertItem alert={alert} key={alert.id} />
       ))}

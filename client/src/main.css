@@ -10886,16 +10886,30 @@ nav .navbar-toggler {
   outline: none;
 }
 
-.alert {
-  width: -webkit-max-content;
-  width: -moz-max-content;
-  width: max-content;
+.alert-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+}
+
+.alert-container .alert {
+  display: block;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
   padding: 0.5rem 1.25rem;
   margin-bottom: 0.5rem;
   z-index: 2;
 }
 
-.alert-danger {
+.alert-container .alert-danger {
   background-color: #ff4681;
   border-color: #eb004b;
   color: azure;

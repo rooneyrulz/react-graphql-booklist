@@ -9,9 +9,7 @@ import {
   LOGOUT,
 } from './types';
 import setHeader from '../utils/set-header';
-import setAlert from './alert';
-
-const API_URI = 'http://localhost:5000/graphql';
+import { setAlert, clearAlerts } from './alert';
 
 // Load the user
 export const loadUser = () => async (dispatch) => {
@@ -120,6 +118,7 @@ export const loginUser = ({ email, password }) => async (dispatch) => {
         payload: res.data.data.authenticateUser,
       });
       dispatch(loadUser());
+      dispatch(clearAlerts());
     } else {
       const errors = res.data.errors
         ? res.data.errors.map((err) => ({
@@ -206,6 +205,7 @@ export const registerUser = ({ email, password }) => async (dispatch) => {
         payload: res.data.data.createUser,
       });
       dispatch(loadUser());
+      dispatch(clearAlerts());
     } else {
       const errors = res.data.errors
         ? res.data.errors.map((err) => ({
