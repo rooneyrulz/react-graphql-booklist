@@ -27,6 +27,8 @@ if (process.env.NODE_ENV === 'development') app.use(loggerHTTP('dev'));
 // Establish Mongo Connection & Listening to Server
 db(server);
 
+app.use(express.static(path.join(__dirname, './client/build')));
+
 // Use Auth Middleware
 app.use(isAuth);
 
@@ -53,11 +55,8 @@ app.use(
   })
 );
 
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, './client/build')));
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, './client/build'));
-  });
-}
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, './client/build'));
+});
 
 module.exports = app;
