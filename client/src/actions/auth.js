@@ -63,7 +63,7 @@ export const loadUser = () => async (dispatch) => {
         {
           msg: 'Something went wrong!',
           status: 500,
-          alertType: 'AUTH_ERROR',
+          type: 'AUTH_ERROR',
         },
       ],
     });
@@ -80,7 +80,7 @@ export const loginUser = ({ email, password }) => async (dispatch) => {
           {
             msg: 'Invalid fields!',
             status: 400,
-            alertType: 'LOGIN_FAIL',
+            type: 'LOGIN_FAIL',
           },
         ],
       }),
@@ -143,7 +143,7 @@ export const loginUser = ({ email, password }) => async (dispatch) => {
         {
           msg: 'Something went wrong!',
           status: 500,
-          alertType: 'LOGIN_FAIL',
+          type: 'LOGIN_FAIL',
         },
       ],
     });
@@ -167,7 +167,7 @@ export const registerUser = ({ email, password }) => async (dispatch) => {
           {
             msg: 'Invalid fields!',
             status: 400,
-            alertType: 'REGISTER_FAIL',
+            type: 'REGISTER_FAIL',
           },
         ],
       }),
@@ -230,7 +230,7 @@ export const registerUser = ({ email, password }) => async (dispatch) => {
         {
           msg: 'Something went wrong!',
           status: 500,
-          alertType: 'REGISTER_FAIL',
+          type: 'REGISTER_FAIL',
         },
       ],
     });

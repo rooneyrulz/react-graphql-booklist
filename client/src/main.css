@@ -10931,7 +10931,7 @@ nav .navbar-toggler {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  background-image: url(assets/bg-auth.jpg), radial-gradient(#333, #000);
+  background-image: url(assets/bg-auth.jpg), radial-gradient(#555, #000);
   background-blend-mode: multiply;
   background-size: cover;
   background-position: 50% 50%;
@@ -11105,7 +11105,10 @@ nav .navbar-toggler {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  background-image: url(assets/bg-home.jpg), radial-gradient(#444, #000);
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  background-image: url(assets/bg-home.jpg), radial-gradient(#555, #000);
   background-blend-mode: multiply;
   background-size: cover;
   background-position: 50% 50%;

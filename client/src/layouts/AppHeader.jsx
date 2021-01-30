@@ -12,6 +12,9 @@ const AppHeader = ({ auth: { isAuthenticated }, logoutUser }) => {
       <NavLink exact to='/dashboard' className='nav-link'>
         Dashboard
       </NavLink>
+      <NavLink exact to='/books' className='nav-link'>
+        Books
+      </NavLink>
       <NavLink exact to='/my-books' className='nav-link'>
         MyBooks
       </NavLink>
@@ -25,9 +28,6 @@ const AppHeader = ({ auth: { isAuthenticated }, logoutUser }) => {
     <>
       <NavLink exact to='/' className='nav-link'>
         Home
-      </NavLink>
-      <NavLink exact to='/books' className='nav-link'>
-        Books
       </NavLink>
       <NavLink exact to='/auth' className='nav-link'>
         Get In

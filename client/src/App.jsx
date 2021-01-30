@@ -38,8 +38,8 @@ const App = ({ auth: { loading }, loadUser }) => {
           <main>
             <Switch>
               <PublicRoute exact path='/' component={Home} />
-              <PublicRoute exact path='/books' component={Books} />
               <PublicRoute exact path='/auth' component={Auth} />
+              <PrivateRoute exact path='/books' component={Books} />
               <PrivateRoute exact path='/my-books' component={MyBooks} />
               <PrivateRoute exact path='/dashboard' component={Dashboard} />
               <Route component={NotFound} />

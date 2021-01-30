@@ -1,6 +1,14 @@
 import React from 'react';
 
-const Books = () => {
+// Redux
+import { connect } from 'react-redux';
+import { getBooks } from '../actions/book';
+
+const Books = ({ getBooks }) => {
+  React.useEffect(() => {
+    getBooks();
+  }, [getBooks]);
+
   return (
     <div className='page__books'>
       <div className='container'>
@@ -10,4 +18,6 @@ const Books = () => {
   );
 };
 
-export default Books;
+const mapStateToProps = (state) => ({});
+
+export default connect(mapStateToProps, { getBooks })(Books);
